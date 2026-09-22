@@ -186,7 +186,13 @@ async function copyForChat(data) {
   const dataLines = data.rows.map(row => formatRow(row));
   const textTable = [headerLine, separatorLine, ...dataLines].join("\n");
   const output = `${title}\n\`\`\`\n${textTable}\n\`\`\``;
-  await navigator.clipboard.writeText(output);
+ const blobText = new Blob([output], { type: "text/plain" });
+
+const item = new ClipboardItem({
+  "text/plain": blobText
+});
+
+await navigator.clipboard.write([item]);
 }
 
 /**
